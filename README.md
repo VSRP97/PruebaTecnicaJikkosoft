@@ -118,3 +118,38 @@ CREATE TABLE [publication_tag] (
 	created_at datetime NOT NULL,
 )
 ```
+
+
+## Desarrollo #2
+
+Se creó un proyecto llamado **Desarrollo 2.csproj** que contiene en **Program.cs** la función solicitada.
+
+### Código de la función C#
+```c#
+/// <summary>
+/// Función que devuelve los índices de dos números enteros en una lista que suman un número destino.
+/// </summary>
+/// <param name="sourceNumbers">Lista de números enteros,</param>
+/// <param name="destNumber">Número entero que debe ser el resultado de los dos números de la lista</param>
+/// <returns>Tupla con los índices de los números que suman el valor de destino, o null si no se encuentran.</returns>
+static (int, int)? GetIndexes(IEnumerable<int> sourceNumbers, int destNumber)
+{
+    Dictionary<int, int>? map = [];
+
+    int index = 0;
+    foreach (var currentNumber in sourceNumbers)
+    {
+        int neededNumber = destNumber - currentNumber;
+
+        if (map.TryGetValue(neededNumber, out int existingIndex))
+        {
+            return (existingIndex, index);
+        }
+
+        map[currentNumber] = index;
+        index++;
+    }
+
+    return null;
+}
+```
