@@ -1,4 +1,4 @@
-# PruebaTecnicaJikkosoft
+# Prueba Tecnica Jikkosoft
 
 ## Puntos a desarrollar:
 1. Diseñar un esquema de base de datos para una plataforma de blogs
@@ -20,8 +20,8 @@ erDiagram
     direction TB
     us[USER]{
         guid id PK
-        string username
-        string email
+        string username UK
+        string email UK
         string password_hash
         bool active
         datetime created_at
@@ -46,14 +46,75 @@ erDiagram
     t[Tag]{
         guid id PK
         string name UK
+        datetime created_at
+        datetime updated_at
     }
-    pt[PUBLICATION_TAGS]{
+    pt[PUBLICATION_TAG]{
         guid publication_id PK, FK
         guid tag_id PK, FK
+        datetime created_at
     }
     us ||--}o p : creates
     p ||--}o c : has
     us ||--}o c : writes
     p ||..}o pt : tagged_with
     t ||..}o pt : categorized_as
+```
+
+### Scripts de creación de tablas - SQL Server
+
+#### User
+```sql
+CREATE TABLE [user] (
+	id uniqueidentifier NOT NULL PRIMARY KEY,
+	username varchar(50) NOT NULL UNIQUE,
+	email varchar(100) NOT NULL UNIQUE,
+	password_hash varchar(255) NOT NULL,
+	active bit NOT NULL DEFAULT(1),
+	created_at datetime NOT NULL,
+	updated_at datetime NOT NULL
+)
+```
+
+### Publication
+```sql
+CREATE TABLE [publication] (
+	id uniqueidentifier NOT NULL PRIMARY KEY,
+	user_id uniqueidentifier NOT NULL FOREIGN KEY REFERENCES [user](id),
+	title varchar(200) NOT NULL,
+	content text NOT NULL,
+	created_at datetime NOT NULL,
+	updated_at datetime NOT NULL
+)
+```
+
+### Comment
+```sql
+CREATE TABLE [comment] (
+	id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+	user_id uniqueidentifier NOT NULL FOREIGN KEY REFERENCES [user](id),
+	publication_id uniqueidentifier NOT NULL FOREIGN KEY REFERENCES [publication](id),
+	content text NOT NULL,
+	created_at datetime NOT NULL,
+	updated_at datetime NOT NULL
+)
+```
+
+### Tag
+```sql
+CREATE TABLE [tag] (
+	id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+	name varchar(50) NOT NULL UNIQUE,
+	created_at datetime NOT NULL,
+	updated_at datetime NOT NULL
+)
+```
+
+### Publication_Tag
+```sql
+CREATE TABLE [publication_tag] (
+	publication_id uniqueidentifier NOT NULL FOREIGN KEY REFERENCES [publication](id),
+	tag_id uniqueidentifier NOT NULL FOREIGN KEY REFERENCES tag(id),
+	created_at datetime NOT NULL,
+)
 ```
