@@ -153,3 +153,48 @@ static (int, int)? GetIndexes(IEnumerable<int> sourceNumbers, int destNumber)
     return null;
 }
 ```
+
+## Desarrollo #3
+
+Para mantener la simplicidad de la solucón se optó por definir que cada edición de libro sólo pueda pertenecer a una biblioteca; igualmente para los miembros, estos solo pueden estar suscritos a una biblioteca.
+
+### Diagrama de Entidad Relación.
+
+```mermaid
+erDiagram
+    direction TB
+    l[LIBRARY]{
+        guid id PK
+        string name
+    }
+    m[MEMBER]{
+        guid id PK
+        guid library_id FK
+        string name
+        string email
+    }
+    b[BOOK]{
+        guid id PK
+        guid library_id FK
+        string isbn UK
+        string title
+        string author
+        int publication_year
+        int total_copies
+        int available_copies
+        datetime date_created
+    }
+    ln[LOAN]{
+        guid id PK
+        guid book_id FK
+        guid member_id FK
+        datetime loan_date
+        datetime return_date
+        int status
+        datetime date_created
+    }
+    l ||--}o b : contains
+    l ||--}o m : subscribes
+    b ||--}o ln : retired_by
+    m ||--}o ln : obtains
+```
