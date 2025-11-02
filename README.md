@@ -200,16 +200,21 @@ erDiagram
     }
     ln[LOAN]{
         guid id PK
-        guid library_book_id FK
         guid member_id FK
         datetime loan_date
-        datetime return_date
+        datetime expected_return_date
+    }
+    lbo[LOAN_BOOK]{
+        guid loan_id PK, FK
+        guid library_book_id PK, FK
+        datetime returned_date
         int status
     }
     l ||--}o lb : contains
     b ||--}o lb : identifies
     l ||--}o lm : subscribes
-    m ||--}o lm : identifies
-    lb ||--}o ln : retired_by
-    m ||--}o ln : obtains
+    m ||--}o lm : identifies    
+    m ||--}o ln : obtains    
+    lb ||--}o lbo : refers
+    ln ||--}o lbo : contains
 ```
