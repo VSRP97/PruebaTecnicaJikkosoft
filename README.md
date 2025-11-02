@@ -1,6 +1,7 @@
 # Prueba Tecnica Jikkosoft
 
 ## Puntos a desarrollar:
+
 1. Diseñar un esquema de base de datos para una plataforma de blogs
 **sencilla**. La plataforma debe admitir usuarios, publicaciones de blog,
 comentarios y etiquetas.
@@ -12,9 +13,10 @@ que sumados dan el resultado del entero destino.
 3. Diseñe e implemente un sistema de gestión de bibliotecas sencillo con
 clases para libros, bibliotecas y miembros.
 
-## Desarrollo #1:
+## Desarrollo #1
 
 ### Diagrama Entidad Relación
+
 ```mermaid
 erDiagram
     direction TB
@@ -64,6 +66,7 @@ erDiagram
 ### Scripts de creación de tablas - SQL Server
 
 #### User
+
 ```sql
 CREATE TABLE [user] (
 	id uniqueidentifier NOT NULL PRIMARY KEY,
@@ -77,6 +80,7 @@ CREATE TABLE [user] (
 ```
 
 ### Publication
+
 ```sql
 CREATE TABLE [publication] (
 	id uniqueidentifier NOT NULL PRIMARY KEY,
@@ -89,6 +93,7 @@ CREATE TABLE [publication] (
 ```
 
 ### Comment
+
 ```sql
 CREATE TABLE [comment] (
 	id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
@@ -101,6 +106,7 @@ CREATE TABLE [comment] (
 ```
 
 ### Tag
+
 ```sql
 CREATE TABLE [tag] (
 	id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
@@ -111,6 +117,7 @@ CREATE TABLE [tag] (
 ```
 
 ### Publication_Tag
+
 ```sql
 CREATE TABLE [publication_tag] (
 	publication_id uniqueidentifier NOT NULL FOREIGN KEY REFERENCES [publication](id),
@@ -119,12 +126,12 @@ CREATE TABLE [publication_tag] (
 )
 ```
 
-
 ## Desarrollo #2
 
 Se creó un proyecto llamado **Desarrollo 2.csproj** que contiene en **Program.cs** la función solicitada.
 
-### Código de la función C#
+### Código de la función C\#
+
 ```c#
 /// <summary>
 /// Función que devuelve los índices de dos números enteros en una lista que suman un número destino.
@@ -158,7 +165,7 @@ static (int, int)? GetIndexes(IEnumerable<int> sourceNumbers, int destNumber)
 
 Para mantener la simplicidad de la solucón se optó por definir que cada edición de libro sólo pueda pertenecer a una biblioteca; igualmente para los miembros, estos solo pueden estar suscritos a una biblioteca.
 
-### Diagrama de Entidad Relación.
+### Diagrama de Entidad Relación
 
 ```mermaid
 erDiagram
@@ -169,31 +176,40 @@ erDiagram
     }
     m[MEMBER]{
         guid id PK
-        guid library_id FK
         string name
         string email
     }
+    lm[LIBRARY_MEMBER]{
+        guid library_id PK, FK
+        guid member_id PK, FK
+    }
     b[BOOK]{
         guid id PK
-        guid library_id FK
         string isbn UK
         string title
         string author
         int publication_year
+        datetime date_created
+    }
+    lb[LIBRARY_BOOK]{
+        guid id PK
+        guid library_id FK
+        guid book_id FK
         int total_copies
         int available_copies
-        datetime date_created
     }
     ln[LOAN]{
         guid id PK
-        guid book_id FK
+        guid library_book_id FK
         guid member_id FK
         datetime loan_date
         datetime return_date
         int status
     }
-    l ||--}o b : contains
-    l ||--}o m : subscribes
-    b ||--}o ln : retired_by
+    l ||--}o lb : contains
+    b ||--}o lb : identifies
+    l ||--}o lm : subscribes
+    m ||--}o lm : identifies
+    lb ||--}o ln : retired_by
     m ||--}o ln : obtains
 ```
