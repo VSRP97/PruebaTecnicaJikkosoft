@@ -19,6 +19,9 @@ namespace LibraryManager.Domain.Abstractions
         {
         }
 
+        /// <summary>
+        /// Entity unique identifier.
+        /// </summary>
         public Guid Id { get; init; }
 
         public IReadOnlyList<IDomainEvent> GetDomainEvents()

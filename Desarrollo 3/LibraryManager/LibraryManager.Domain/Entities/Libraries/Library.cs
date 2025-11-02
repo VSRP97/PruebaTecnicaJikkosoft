@@ -12,15 +12,41 @@ namespace LibraryManager.Domain.Entities.Libraries
     public sealed class Library : Entity
     {
 
-        public Library()
+        private Library(
+            Guid id,
+            string name) : base(id)
         {
+            Name = name;
         }
 
-        public string Name { get; set; }
+        private Library()
+        {            
+        }
+
+        /// <summary>
+        /// Name of the library.
+        /// </summary>
+        public string Name { get; private set; }
 
         #region Navigation
         public ICollection<Book> Books { get; private set; } = [];
         public ICollection<Member> Members { get; private set; } = [];
         #endregion
+
+        public static Library Create(string name)
+        {
+            var library = new Library(
+                Guid.NewGuid(),
+                name);
+
+            return library;
+        }
+
+        public Result Update(string name)
+        {
+            Name = name;
+
+            return Result.Success();
+        }
     }
 }

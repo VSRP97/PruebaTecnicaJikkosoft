@@ -1,4 +1,6 @@
 ﻿using LibraryManager.Domain.Abstractions;
+using LibraryManager.Domain.Entities.Libraries;
+using LibraryManager.Domain.Entities.Loans;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,11 @@ namespace LibraryManager.Domain.Entities.Books
         private Book()
         {
         }
+
+        /// <summary>
+        /// Identifier of the library that owns the book.
+        /// </summary>
+        public Guid LibraryId { get; set; }
 
         /// <summary>
         /// International Standard Book Number (ISBN) of the book.
@@ -55,6 +62,11 @@ namespace LibraryManager.Domain.Entities.Books
         /// Total number of available copies of the book.
         /// </summary>
         public int AvailableCopies { get; private set; }
+
+        #region Navigation
+        public Library Library { get; private set; }
+        public ICollection<Loan> Loans { get; set; } = [];
+        #endregion
 
         /// <summary>
         /// Creates a new instance of the <see cref="Book"/> class with a unique identifier.
@@ -105,7 +117,7 @@ namespace LibraryManager.Domain.Entities.Books
         /// </summary>
         /// <param name="amountToLend"></param>
         /// <returns></returns>
-        public Result LendCopies(int amountToLend = 0)
+        public Result LendCopies(int amountToLend = 1)
         {
             if (AvailableCopies <= 0)
                 return Result.Failure(BookErrors.OutOfStock);
