@@ -11,9 +11,9 @@ namespace LibraryManager.Infrastructure.Repositories
     internal abstract class Repository<T>
         where T : Entity
     {
-        protected readonly TemplateDbContext DbContext;
+        protected readonly LibraryManagerDbContext DbContext;
 
-        protected Repository(TemplateDbContext dbContext)
+        protected Repository(LibraryManagerDbContext dbContext)
         {
             DbContext = dbContext;
         }

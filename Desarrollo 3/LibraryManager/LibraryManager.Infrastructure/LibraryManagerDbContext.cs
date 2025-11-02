@@ -11,18 +11,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManager.Infrastructure
 {
-    public sealed class TemplateDbContext : DbContext, IUnitOfWork
+    public sealed class LibraryManagerDbContext : Microsoft.EntityFrameworkCore.DbContext, IUnitOfWork
     {
         private readonly IPublisher _publisher;
 
-        public TemplateDbContext(DbContextOptions options, IPublisher publisher) : base(options)
+        public LibraryManagerDbContext(DbContextOptions options, IPublisher publisher) : base(options)
         {
             _publisher = publisher;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TemplateDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(LibraryManagerDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);
         }

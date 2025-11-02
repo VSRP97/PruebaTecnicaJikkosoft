@@ -10,7 +10,7 @@ namespace LibraryManager.Infrastructure.Repositories
 {
     internal sealed class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(TemplateDbContext dbContext) : base(dbContext)
+        public UserRepository(LibraryManagerDbContext dbContext) : base(dbContext)
         {
         }
 

@@ -9,7 +9,7 @@ namespace LibraryManager.Extensions
         {
             using IServiceScope scope = app.ApplicationServices.CreateScope();
 
-            using TemplateDbContext dbContext = scope.ServiceProvider.GetRequiredService<TemplateDbContext>();
+            using LibraryManagerDbContext dbContext = scope.ServiceProvider.GetRequiredService<LibraryManagerDbContext>();
 
             dbContext.Database.Migrate();
         }

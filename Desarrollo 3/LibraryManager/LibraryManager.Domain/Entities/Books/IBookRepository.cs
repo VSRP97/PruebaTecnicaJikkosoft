@@ -1,0 +1,14 @@
+﻿using LibraryManager.Domain.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LibraryManager.Domain.Entities.Books
+{
+    public interface IBookRepository : IRepository<Book>
+    {
+        public Task<Book?> GetByIsbnAsync(string isbn, CancellationToken cancellationToken = default);
+    }
+}

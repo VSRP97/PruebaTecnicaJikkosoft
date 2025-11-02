@@ -8,6 +8,7 @@ using LibraryManager.Application.Abstractions.Caching;
 using LibraryManager.Application.Abstractions.Clock;
 using LibraryManager.Application.Abstractions.Data;
 using LibraryManager.Domain.Abstractions;
+using LibraryManager.Domain.Entities.Loans;
 using LibraryManager.Domain.Entities.Users;
 using LibraryManager.Infrastructure.Caching;
 using LibraryManager.Infrastructure.Clock;
@@ -44,12 +45,12 @@ namespace LibraryManager.Infrastructure
             string connectionString = configuration.GetConnectionString("Database") ?? throw new ArgumentNullException(nameof(configuration));
 
             // Replace the incorrect method 'UsqSqlServer' with the correct method 'UseSqlServer'
-            services.AddDbContext<TemplateDbContext>(options =>
+            services.AddDbContext<LibraryManagerDbContext>(options =>
             {
                 options.UseSqlServer(connectionString).UseSnakeCaseNamingConvention();
             });
 
-            services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<TemplateDbContext>());
+            services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<LibraryManagerDbContext>());
 
             services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
         }
@@ -79,7 +80,7 @@ namespace LibraryManager.Infrastructure
 
         public static void AddTypesHandler()
         {
-            //SqlMapper.AddTypeHandler(new EnumTypeHandler<T>();
+            SqlMapper.AddTypeHandler(new EnumTypeHandler<LoanStatus>());
         }
     }
 }
