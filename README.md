@@ -191,7 +191,6 @@ erDiagram
         datetime loan_date
         datetime return_date
         int status
-        datetime date_created
     }
     l ||--}o b : contains
     l ||--}o m : subscribes
