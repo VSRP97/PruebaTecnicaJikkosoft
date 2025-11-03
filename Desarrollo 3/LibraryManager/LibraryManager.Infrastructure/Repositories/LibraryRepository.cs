@@ -17,7 +17,8 @@ namespace LibraryManager.Infrastructure.Repositories
         public async Task<(IReadOnlyList<Library>, int)> GetAllLibrariesPaginated(
             int skip,
             int limit,
-            string? search)
+            string? search,
+            CancellationToken cancellationToken = default)
         {
             var query = DbContext.Set<Library>().AsQueryable();
 
@@ -30,7 +31,7 @@ namespace LibraryManager.Infrastructure.Repositories
 
             var libraries = await query
                 .OrderByDescending(b => b.Name)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return (libraries, totalRecords);
         }

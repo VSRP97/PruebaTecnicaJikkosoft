@@ -44,5 +44,13 @@ namespace LibraryManager.Infrastructure.Repositories
 
             return (loans, totalRecords);
         }
+
+        public Task<Loan?> GetById(Guid id, CancellationToken cancellationToken = default)
+        {
+            return DbContext
+                .Set<Loan>()
+                .Include(l => l.LibraryBook.Book)
+                .FirstOrDefaultAsync(loan => loan.Id == id, cancellationToken);
+        }
     }
 }

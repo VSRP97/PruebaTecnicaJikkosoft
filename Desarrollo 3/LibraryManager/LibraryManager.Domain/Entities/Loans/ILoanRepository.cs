@@ -28,5 +28,7 @@ namespace LibraryManager.Domain.Entities.Loans
             Guid? bookId,
             Guid? memberId,
             CancellationToken cancellationToken = default);
+
+        public Task<Loan?> GetById(Guid id, CancellationToken cancellationToken = default);
     }
 }

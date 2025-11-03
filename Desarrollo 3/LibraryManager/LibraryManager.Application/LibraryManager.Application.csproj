@@ -19,11 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\Books\GetById\" />
-    <Folder Include="Commands\Books\GetByIsbn\" />
-    <Folder Include="Commands\Books\Create\" />
-    <Folder Include="Commands\Books\Delete\" />
-    <Folder Include="Commands\Books\Update\" />
     <Folder Include="Commands\LibraryBooks\Create\" />
     <Folder Include="Commands\LibraryBooks\Delete\" />
     <Folder Include="Commands\LibraryBooks\GetById\" />

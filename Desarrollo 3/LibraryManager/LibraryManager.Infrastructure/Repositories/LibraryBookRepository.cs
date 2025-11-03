@@ -17,7 +17,8 @@ namespace LibraryManager.Infrastructure.Repositories
         public async Task<(IReadOnlyList<LibraryBook>, int)> GetAllLibraryBooksPaginated(
             int skip,
             int limit,
-            string? search)
+            string? search,
+            CancellationToken cancellationToken)
         {
             var query = DbContext.Set<LibraryBook>().AsQueryable();
 
@@ -32,9 +33,17 @@ namespace LibraryManager.Infrastructure.Repositories
             var libraryBooks = await query
                 .Include(b => b.Book)
                 .OrderByDescending(lb => lb.AvailableCopies)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return (libraryBooks, totalRecords);
+        }
+
+        public Task<LibraryBook> GetById(Guid id, CancellationToken cancellationToken = default)
+        {
+            return DbContext
+                .Set<LibraryBook>()
+                .Include(lb => lb.Book)
+                .FirstOrDefaultAsync(libraryBook => libraryBook.Id == id, cancellationToken)!;
         }
     }
 }

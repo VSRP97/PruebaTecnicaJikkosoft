@@ -27,7 +27,10 @@ namespace LibraryManager.Application.Commands.Libraries.Update
             if (library is null)
                 return Result.Failure(LibraryErrors.NotFound);
 
-            library.Update(request.Name);
+            var result = library.Update(request.Name);
+
+            if (result.IsFailure)
+                return Result.Failure(result.Error);
 
             await _unitOfWork.SaveChangesAsync();
 

@@ -17,7 +17,8 @@ namespace LibraryManager.Infrastructure.Repositories
         public async Task<(IReadOnlyList<Member>, int)> GetAllMembersPaginated(
             int skip,
             int limit,
-            string? search)
+            string? search,
+            CancellationToken cancellationToken = default)
         {
             var query = DbContext.Set<Member>().AsQueryable();
 
@@ -35,6 +36,13 @@ namespace LibraryManager.Infrastructure.Repositories
                 .ToListAsync();
 
             return (members, totalRecords);
+        }
+
+        public Task<Member> GetById(Guid id, CancellationToken cancellationToken = default)
+        {
+            return DbContext
+                .Set<Member>()
+                .FirstOrDefaultAsync(member => member.Id == id, cancellationToken)!;
         }
     }
 }

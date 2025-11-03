@@ -14,6 +14,7 @@ namespace LibraryManager.Domain.Entities.Libraries
         public Task<(IReadOnlyList<Library>, int)> GetAllLibrariesPaginated(
             int skip,
             int limit,
-            string? search);
+            string? search,
+            CancellationToken cancellationToken = default);
     }
 }

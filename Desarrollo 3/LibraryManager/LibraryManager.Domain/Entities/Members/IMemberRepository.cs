@@ -9,9 +9,12 @@ namespace LibraryManager.Domain.Entities.Members
 {
     public interface IMemberRepository : IRepository<Member>
     {
+        public Task<Member> GetById(Guid id, CancellationToken cancellationToken = default);
+
         public Task<(IReadOnlyList<Member>, int)> GetAllMembersPaginated(
             int skip,
             int limit,
-            string? search);
+            string? search,
+            CancellationToken cancellationToken = default);
     }
 }
