@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
 {
-    internal class GetAllLoansPaginatedQueryHandler
+    internal sealed class GetAllLoansPaginatedQueryHandler
         : IQueryHandler<GetAllLoansPaginatedQuery, GetAllLoansPaginatedResponse>
     {
         private readonly ILoanRepository _loanRepo;

@@ -8,7 +8,11 @@ using LibraryManager.Application.Abstractions.Caching;
 using LibraryManager.Application.Abstractions.Clock;
 using LibraryManager.Application.Abstractions.Data;
 using LibraryManager.Domain.Abstractions;
+using LibraryManager.Domain.Entities.Books;
+using LibraryManager.Domain.Entities.Libraries;
+using LibraryManager.Domain.Entities.LibraryBooks;
 using LibraryManager.Domain.Entities.Loans;
+using LibraryManager.Domain.Entities.Members;
 using LibraryManager.Domain.Entities.Users;
 using LibraryManager.Infrastructure.Caching;
 using LibraryManager.Infrastructure.Clock;
@@ -70,6 +74,11 @@ namespace LibraryManager.Infrastructure
         private static void AddCustomRepositories(IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ILoanRepository, LoanRepository>();
+            services.AddScoped<ILibraryRepository, LibraryRepository>();
+            services.AddScoped<ILibraryBookRepository, LibraryBookRepository>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<IBookRepository, BookRepository>();
         }
 
         private static void AddHealthChecks(IServiceCollection services, IConfiguration configuration)

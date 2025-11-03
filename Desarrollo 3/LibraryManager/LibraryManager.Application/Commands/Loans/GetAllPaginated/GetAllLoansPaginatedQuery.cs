@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
 {
-    public sealed record GetAllLoansPaginatedQuery(
+    public record GetAllLoansPaginatedQuery(
         int Skip,
         int Limit,
         string? Search,

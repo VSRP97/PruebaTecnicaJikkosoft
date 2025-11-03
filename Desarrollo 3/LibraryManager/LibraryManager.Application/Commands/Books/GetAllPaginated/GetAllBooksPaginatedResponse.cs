@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace LibraryManager.Application.Commands.Books.GetAllPaginated
 {
-    internal class GetAllBooksPaginatedResponse
+    public class GetAllBooksPaginatedResponse
     {
         public IReadOnlyList<GetBookResponse> Books { get; set; }
         public int TotalCount { get; set; }
     }
 
-    internal class GetBookResponse
+    public class GetBookResponse
     {
         public Guid Id { get; set; }
         public string ISBN { get; set; }
