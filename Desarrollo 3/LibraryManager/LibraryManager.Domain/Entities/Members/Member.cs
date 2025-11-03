@@ -15,8 +15,12 @@ namespace LibraryManager.Domain.Entities.Members
     /// </summary>
     public sealed class Member : Entity
     {
-        private Member(Guid id, string name, string email) : base(id)
+        private Member(
+            Guid id,
+            string name,
+            string email)
         {
+            Id = id;
             Name = name;
             Email = email;
         }
@@ -25,10 +29,7 @@ namespace LibraryManager.Domain.Entities.Members
         {            
         }
 
-        /// <summary>
-        /// Identifier of the library the member belongs to
-        /// </summary>
-        public Guid LibraryId { get; set; }
+        public Guid Id { get; private set; }
 
         /// <summary>
         /// Name of the member
@@ -42,7 +43,7 @@ namespace LibraryManager.Domain.Entities.Members
 
 
         #region Navigation
-        public Library Library { get; set; }
+        public ICollection<Library> Libraries { get; private set; } = [];
         public ICollection<Loan> Loans { get; private set; } = [];
         #endregion
 

@@ -189,7 +189,7 @@ erDiagram
         string title
         string author
         int publication_year
-        datetime date_created
+        datetime created_at
     }
     lb[LIBRARY_BOOK]{
         guid id PK
@@ -205,6 +205,7 @@ erDiagram
         datetime loan_date
         datetime return_date
         datetime expected_return_date
+        enum status
         datetime created_at
     }
     l ||--}o lb : contains

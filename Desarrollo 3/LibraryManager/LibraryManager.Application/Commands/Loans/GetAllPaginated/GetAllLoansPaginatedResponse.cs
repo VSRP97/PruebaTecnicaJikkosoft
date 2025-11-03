@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
 {
-    internal class LoanPaginationResponse
+    internal class GetAllLoansPaginatedResponse
     {
         public Guid Id { get; set; }
         public Guid BookId { get; set; }

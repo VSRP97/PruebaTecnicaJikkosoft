@@ -10,20 +10,6 @@ namespace LibraryManager.Domain.Abstractions
     {
         private readonly List<IDomainEvent> _domainEvents = new();
 
-        protected Entity(Guid id)
-        {
-            Id = id;
-        }
-
-        protected Entity()
-        {
-        }
-
-        /// <summary>
-        /// Entity unique identifier.
-        /// </summary>
-        public Guid Id { get; init; }
-
         public IReadOnlyList<IDomainEvent> GetDomainEvents()
         {
             return _domainEvents.ToList();

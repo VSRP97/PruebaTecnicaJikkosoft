@@ -12,5 +12,5 @@ namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
         int limit,
         string? search,
         Guid? bookId,
-        Guid? memberId) : IQuery<LoanPaginationResponse>;
+        Guid? memberId) : IQuery<GetAllLoansPaginatedResponse>;
 }

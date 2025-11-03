@@ -28,10 +28,9 @@ namespace LibraryManager.Infrastructure.Configurations
                 .IsRequired();
 
             builder
-                .HasOne(m => m.Library)
+                .HasMany(m => m.Libraries)
                 .WithMany(l => l.Members)
-                .HasForeignKey(m => m.LibraryId)
-                .IsRequired();
+                .UsingEntity("library_member");
         }
     }
 }

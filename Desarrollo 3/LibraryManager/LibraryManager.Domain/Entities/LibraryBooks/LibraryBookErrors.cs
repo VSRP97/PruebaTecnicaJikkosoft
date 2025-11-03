@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibraryManager.Domain.Entities.Books
+namespace LibraryManager.Domain.Entities.LibraryBooks
 {
-    public static class BookErrors
+    public static class LibraryBookErrors
     {
         public static readonly Error OutOfStock = new(
             "Book.OutOfStock",

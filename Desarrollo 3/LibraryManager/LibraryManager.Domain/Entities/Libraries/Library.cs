@@ -1,5 +1,6 @@
 ﻿using LibraryManager.Domain.Abstractions;
 using LibraryManager.Domain.Entities.Books;
+using LibraryManager.Domain.Entities.LibraryBooks;
 using LibraryManager.Domain.Entities.Members;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,9 @@ namespace LibraryManager.Domain.Entities.Libraries
 
         private Library(
             Guid id,
-            string name) : base(id)
+            string name)
         {
+            Id = id;
             Name = name;
         }
 
@@ -23,13 +25,15 @@ namespace LibraryManager.Domain.Entities.Libraries
         {            
         }
 
+        public Guid Id { get; private set; }
+
         /// <summary>
         /// Name of the library.
         /// </summary>
         public string Name { get; private set; }
 
         #region Navigation
-        public ICollection<Book> Books { get; private set; } = [];
+        public ICollection<LibraryBook> LibraryBooks { get; private set; } = [];
         public ICollection<Member> Members { get; private set; } = [];
         #endregion
 

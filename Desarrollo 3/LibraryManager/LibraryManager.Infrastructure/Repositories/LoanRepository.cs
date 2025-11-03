@@ -10,7 +10,7 @@ namespace LibraryManager.Infrastructure.Repositories
 {
     internal sealed class LoanRepository(LibraryManagerDbContext dbContext) : Repository<Loan>(dbContext), ILoanRepository
     {
-        public async Task<(IEnumerable<Loan>, int)> GetAllLoansPaginated(
+        public async Task<(IReadOnlyList<Loan>, int)> GetAllLoansPaginated(
             int skip,
             int limit,
             string? search,
@@ -25,17 +25,17 @@ namespace LibraryManager.Infrastructure.Repositories
             
             query = query.Skip(skip).Take(limit);
 
-            if (!string.IsNullOrEmpty(search))
-                query = query.Where(loan => loan.Book.Title.Contains(search) || loan.Member.Name.Contains(search));
-
-            if (status is not null)
-                query = query.Where(loan => loan.Status == status);
-
             if (bookId is not null)
-                query = query.Where(loan => loan.BookId == bookId);
+                query = query.Where(loan => loan.LibraryBook.BookId == bookId);
 
             if (memberId is not null)
                 query = query.Where(loan => loan.MemberId == memberId);
+
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(loan => loan.LibraryBook.Book.Title.Contains(search) || loan.Member.Name.Contains(search));
+
+            if (status is not null)
+                query = query.Where(loan => loan.Status == status);            
 
             var loans = await query.ToListAsync(cancellationToken);
 

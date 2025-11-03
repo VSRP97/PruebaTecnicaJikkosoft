@@ -1,5 +1,6 @@
 ﻿using LibraryManager.Domain.Abstractions;
 using LibraryManager.Domain.Entities.Books;
+using LibraryManager.Domain.Entities.LibraryBooks;
 using LibraryManager.Domain.Entities.Members;
 using System;
 using System.Collections.Generic;
@@ -13,21 +14,23 @@ namespace LibraryManager.Domain.Entities.Loans
     {
         private Loan(
             Guid id,
-            Guid bookId,
+            Guid libraryBookId,
             Guid memberId,
             LoanStatus status,
-            DateTime createdAt) : base(id)
+            DateTime createdAt)
         {
-            BookId = bookId;
+            Id = id;
+            LibraryBookId = libraryBookId;
             MemberId = memberId;
             Status = status;
-            CreatedAt = createdAt;
         }
         private Loan()
         {
         }
 
-        public Guid BookId { get; private set; }
+
+        public Guid Id { get; set; }
+        public Guid LibraryBookId { get; private set; }
         public Guid MemberId { get; private set; }
         public DateTime? LoanDate { get; private set; }
         public DateTime? ExpectedReturnDate { get; private set; }
@@ -36,18 +39,18 @@ namespace LibraryManager.Domain.Entities.Loans
         public DateTime CreatedAt { get; private set; }
 
         #region Navigation
-        public Book Book { get; set; }
+        public LibraryBook LibraryBook { get; private set; }
         public Member Member { get; set; }
         #endregion
 
         public static Loan Create(
-            Guid bookId,
+            Guid libraryBookId,
             Guid memberId,
             DateTime utcNow)
         {
             var loan = new Loan(
                 Guid.NewGuid(),
-                bookId,
+                libraryBookId,
                 memberId,
                 LoanStatus.Created,
                 utcNow);
@@ -55,12 +58,12 @@ namespace LibraryManager.Domain.Entities.Loans
             return loan;
         }
 
-        public Result MarkAsLoaned(DateTime loanDate, DateTime expectedReturnDate)
+        public Result MarkAsLoaned(DateTime loanDate, DateTime expectedReturnDate, int quantity = 1)
         {
             if (Status != LoanStatus.Created)
                 return Result.Failure(LoanErrors.NotCreatedStatus);
 
-            var result = Book.LendCopies();
+            var result = LibraryBook.LendCopies(quantity);
             if (result.IsFailure)
                 return result;
 
@@ -71,12 +74,12 @@ namespace LibraryManager.Domain.Entities.Loans
             return Result.Success();
         }
 
-        public Result MarkAsReturned(DateTime returnDate)
+        public Result MarkAsReturned(DateTime returnDate, int quantity = 1)
         {
             if (Status != LoanStatus.Loaned)
                 return Result.Failure(LoanErrors.NotLoanedStatus);
 
-            var result = Book.ReturnCopies();
+            var result = LibraryBook.ReturnCopies(quantity);
             if (result.IsFailure)
                 return result;
 

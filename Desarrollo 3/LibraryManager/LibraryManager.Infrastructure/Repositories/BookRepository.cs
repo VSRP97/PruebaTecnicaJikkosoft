@@ -14,13 +14,15 @@ namespace LibraryManager.Infrastructure.Repositories
         {
         }
 
-        public Task<Book?> GetByIsbnAsync(string isbn, CancellationToken cancellationToken = default)
+        public async Task<Book?> GetByIsbnAsync(string isbn, CancellationToken cancellationToken = default)
         {
-            var book = DbContext
+            var book = await DbContext
                 .Set<Book>()
                 .FirstOrDefaultAsync(book => book.ISBN == isbn, cancellationToken);
 
             return book;
         }
+
+        public async Task<(int, IRead)>
     }
 }

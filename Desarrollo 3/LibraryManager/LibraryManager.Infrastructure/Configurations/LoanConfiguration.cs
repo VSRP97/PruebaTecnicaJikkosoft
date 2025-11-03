@@ -34,10 +34,14 @@ namespace LibraryManager.Infrastructure.Configurations
                 .HasConversion(type => (int)type, value => (LoanStatus)value)
                 .IsRequired();
 
+            builder.Property(l => l.CreatedAt)
+                .HasColumnName("created_at")
+                .IsRequired();
+
             builder
-                .HasOne(l => l.Book)
-                .WithMany(b => b.Loans)
-                .HasForeignKey(l => l.BookId)
+                .HasOne(l => l.LibraryBook)
+                .WithMany(lb => lb.Loans)
+                .HasForeignKey(l => l.LibraryBookId)
                 .IsRequired();
 
             builder

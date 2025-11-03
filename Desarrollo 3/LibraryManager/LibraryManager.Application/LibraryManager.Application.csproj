@@ -18,4 +18,10 @@
     <ProjectReference Include="..\LibraryManager.Domain\LibraryManager.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\Libraries\GetAllPaginated\" />
+    <Folder Include="Commands\LibraryBooks\GetAllPaginated\" />
+    <Folder Include="Commands\Members\GetAllPaginated\" />
+  </ItemGroup>
+
 </Project>

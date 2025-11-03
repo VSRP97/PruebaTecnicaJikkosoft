@@ -39,18 +39,8 @@ namespace LibraryManager.Infrastructure.Configurations
                 .HasColumnName("publication_year")
                 .IsRequired();
 
-            builder.Property(b => b.TotalCopies)
-                .HasColumnName("total_copies")
-                .IsRequired();
-
-            builder.Property(b => b.AvailableCopies)
-                .HasColumnName("available_copies")
-                .IsRequired();
-
-            builder
-                .HasOne(b => b.Library)
-                .WithMany(l => l.Books)
-                .HasForeignKey(b => b.LibraryId)
+            builder.Property(b => b.CreatedAt)
+                .HasColumnName("created_at")
                 .IsRequired();
         }
     }

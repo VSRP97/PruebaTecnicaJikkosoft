@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
 {
     internal class GetAllLoansPaginatedQueryHandler
-        : IQueryHandler<GetAllLoansPaginatedQuery, LoanPaginationResponse>
+        : IQueryHandler<GetAllLoansPaginatedQuery, GetAllLoansPaginatedResponse>
     {
         private readonly ILoanRepository _loanRepository;
 
@@ -20,7 +20,7 @@ namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
             _loanRepository = loanRepository;
         }
 
-        public Task<Result<LoanPaginationResponse>> Handle(GetAllLoansPaginatedQuery request, CancellationToken cancellationToken)
+        public Task<Result<GetAllLoansPaginatedResponse>> Handle(GetAllLoansPaginatedQuery request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

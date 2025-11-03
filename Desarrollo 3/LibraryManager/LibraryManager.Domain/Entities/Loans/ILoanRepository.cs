@@ -20,7 +20,7 @@ namespace LibraryManager.Domain.Entities.Loans
         /// <param name="memberId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>Tuple where the first value is the list of loans and the second is the total in the set</returns>
-        public Task<(IEnumerable<Loan>, int)> GetAllLoansPaginated(
+        public Task<(IReadOnlyList<Loan>, int)> GetAllLoansPaginated(
             int skip,
             int limit,
             string? search,

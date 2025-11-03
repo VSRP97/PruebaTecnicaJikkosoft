@@ -1,5 +1,6 @@
 ﻿using LibraryManager.Domain.Abstractions;
 using LibraryManager.Domain.Entities.Libraries;
+using LibraryManager.Domain.Entities.LibraryBooks;
 using LibraryManager.Domain.Entities.Loans;
 using System;
 using System.Collections.Generic;
@@ -16,22 +17,22 @@ namespace LibraryManager.Domain.Entities.Books
             string iSBN,
             string title,
             string author,
-            int publicationYear) : base(id)
+            int publicationYear,
+            DateTime createdAt)
         {
+            Id = id;
             ISBN = iSBN;
             Title = title;
             Author = author;
             PublicationYear = publicationYear;
+            CreatedAt = createdAt;
         }
 
         private Book()
         {
         }
 
-        /// <summary>
-        /// Identifier of the library that owns the book.
-        /// </summary>
-        public Guid LibraryId { get; set; }
+        public Guid  Id { get; private set; }
 
         /// <summary>
         /// International Standard Book Number (ISBN) of the book.
@@ -54,18 +55,13 @@ namespace LibraryManager.Domain.Entities.Books
         public int PublicationYear { get; private set; }
 
         /// <summary>
-        /// Total number of copies of the book.
+        /// Date the book was registered.
         /// </summary>
-        public int TotalCopies { get; private set; }
-
-        /// <summary>
-        /// Total number of available copies of the book.
-        /// </summary>
-        public int AvailableCopies { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
         #region Navigation
-        public Library Library { get; private set; }
-        public ICollection<Loan> Loans { get; set; } = [];
+
+        public ICollection<LibraryBook> LibraryBooks { get; set; } = [];
         #endregion
 
         /// <summary>
@@ -75,21 +71,21 @@ namespace LibraryManager.Domain.Entities.Books
         /// <param name="title"></param>
         /// <param name="author"></param>
         /// <param name="publicationYear"></param>
-        /// <param name="isAvailable"></param>
         /// <returns></returns>
         public static Book Create(
             string iSBN,
             string title,
             string author,
             int publicationYear,
-            bool isAvailable = true)
+            DateTime utcNow)
         {
             var book = new Book(
                 Guid.NewGuid(),
                 iSBN,
                 title,
                 author,
-                publicationYear);
+                publicationYear,
+                utcNow);
 
             return book;
         }
@@ -109,35 +105,6 @@ namespace LibraryManager.Domain.Entities.Books
             Title = title;
             Author = author;
             PublicationYear = publicationYear;
-            return Result.Success();
-        }
-
-        /// <summary>
-        /// Reduces the number of available copies when lending books.
-        /// </summary>
-        /// <param name="amountToLend"></param>
-        /// <returns></returns>
-        public Result LendCopies(int amountToLend = 1)
-        {
-            if (AvailableCopies <= 0)
-                return Result.Failure(BookErrors.OutOfStock);
-
-            if (amountToLend > AvailableCopies)
-                return Result.Failure(BookErrors.InsufficientStock);
-
-            AvailableCopies -= amountToLend;
-
-            return Result.Success();
-        }
-
-        /// <summary>
-        /// Increments the number of available copies when returning books.
-        /// </summary>
-        /// <param name="amountToReturn"></param>
-        /// <returns></returns>
-        public Result ReturnCopies(int amountToReturn = 1)
-        {
-            AvailableCopies += amountToReturn;
             return Result.Success();
         }
     }

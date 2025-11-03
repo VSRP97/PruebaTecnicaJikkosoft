@@ -11,7 +11,6 @@ namespace LibraryManager.Domain.Entities.Users
     public sealed class User : Entity
     {
         public User(Guid id, FullName fullName, string email)
-            : base(id)
         {
             FullName = fullName;
             Email = email;
@@ -20,6 +19,7 @@ namespace LibraryManager.Domain.Entities.Users
         {
         }
 
+        public Guid Id { get; private set; }
         public FullName FullName { get; private set; }
         public string Email { get; private set; }
 
