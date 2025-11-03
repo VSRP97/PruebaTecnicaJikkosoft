@@ -203,7 +203,9 @@ erDiagram
         guid library_book_id FK
         guid member_id FK
         datetime loan_date
+        datetime return_date
         datetime expected_return_date
+        datetime created_at
     }
     l ||--}o lb : contains
     b ||--}o lb : identifies
