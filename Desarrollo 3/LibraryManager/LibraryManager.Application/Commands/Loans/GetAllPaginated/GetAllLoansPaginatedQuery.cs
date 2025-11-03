@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
 {
     public sealed record GetAllLoansPaginatedQuery(
-        int skip,
-        int limit,
-        string? search,
-        Guid? bookId,
-        Guid? memberId) : IQuery<GetAllLoansPaginatedResponse>;
+        int Skip,
+        int Limit,
+        string? Search,
+        string? Status,
+        Guid? BookId,
+        Guid? MemberId) : IQuery<GetAllLoansPaginatedResponse>;
 }

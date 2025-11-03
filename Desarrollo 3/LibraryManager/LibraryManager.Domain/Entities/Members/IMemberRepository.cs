@@ -9,5 +9,9 @@ namespace LibraryManager.Domain.Entities.Members
 {
     public interface IMemberRepository : IRepository<Member>
     {
+        public Task<(IReadOnlyList<Member>, int)> GetAllMembersPaginated(
+            int skip,
+            int limit,
+            string? search);
     }
 }

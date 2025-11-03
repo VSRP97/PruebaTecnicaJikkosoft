@@ -23,6 +23,28 @@ namespace LibraryManager.Infrastructure.Repositories
             return book;
         }
 
-        public async Task<(int, IRead)>
+        public async Task<(IReadOnlyList<Book>, int)> GetAllBooksPaginated(
+            int skip,
+            int limit,
+            string? search)
+        {
+            var query = DbContext.Set<Book>().AsQueryable();
+
+            var totalRecords = query.Count();
+
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(b => b.ISBN.Contains(search)
+                                         || b.Author.Contains(search)
+                                         || b.Title.Contains(search)
+                                         || b.PublicationYear.ToString().Contains(search));
+
+            query = query.Skip(skip).Take(limit);
+
+            var books = await query
+                .OrderByDescending(b => b.PublicationYear)
+                .ToListAsync();
+
+            return (books, totalRecords);
+        }
     }
 }

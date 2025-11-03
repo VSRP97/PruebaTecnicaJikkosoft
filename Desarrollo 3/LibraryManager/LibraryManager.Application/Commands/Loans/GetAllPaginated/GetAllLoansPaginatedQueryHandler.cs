@@ -13,16 +13,50 @@ namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
     internal class GetAllLoansPaginatedQueryHandler
         : IQueryHandler<GetAllLoansPaginatedQuery, GetAllLoansPaginatedResponse>
     {
-        private readonly ILoanRepository _loanRepository;
+        private readonly ILoanRepository _loanRepo;
 
-        public GetAllLoansPaginatedQueryHandler(ILoanRepository loanRepository)
+        public GetAllLoansPaginatedQueryHandler(ILoanRepository loanRepo)
         {
-            _loanRepository = loanRepository;
+            _loanRepo = loanRepo;
         }
 
-        public Task<Result<GetAllLoansPaginatedResponse>> Handle(GetAllLoansPaginatedQuery request, CancellationToken cancellationToken)
+        public async Task<Result<GetAllLoansPaginatedResponse>> Handle(GetAllLoansPaginatedQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var isParsed = Enum.TryParse(request.Status, out LoanStatus loanStatus);
+
+            var result = await _loanRepo.GetAllLoansPaginated(
+                request.Skip,
+                request.Limit,
+                request.Search,
+                isParsed ? loanStatus : null,
+                request.BookId,
+                request.MemberId,
+                cancellationToken);
+
+            var loans = result.Item1.Select(l =>
+            {
+                return new GetLoanResponse()
+                {
+                    Id = l.Id,
+                    BookId = l.LibraryBook.BookId,
+                    BookTitle = l.LibraryBook.Book.Title,
+                    LoanDate = l.LoanDate,
+                    ExpectedReturnDate = l.ExpectedReturnDate,
+                    MemberId = l.MemberId,
+                    MemberName = l.Member.Name,
+                    ReturnDate = l.ReturnDate,
+                    Status = l.Status.ToString(),
+                    CreatedAt = l.CreatedAt
+                };
+            });
+
+            GetAllLoansPaginatedResponse response = new()
+            {
+                Loans = [.. loans],
+                TotalCount = result.Item2
+            };
+
+            return response;
         }
     }
 }

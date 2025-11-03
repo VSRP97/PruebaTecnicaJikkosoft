@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibraryManager.Domain.Entities.Libraries
+namespace LibraryManager.Domain.Entities.LibraryBooks
 {
-    public interface ILibraryRepository : IRepository<Library>
+    public interface ILibraryBookRepository : IRepository<LibraryBook>
     {
-        public Task<(IReadOnlyList<Library>, int)> GetAllLibrariesPaginated(
+        public Task<(IReadOnlyList<LibraryBook>, int)> GetAllLibraryBooksPaginated(
             int skip,
             int limit,
             string? search);

@@ -22,8 +22,6 @@ namespace LibraryManager.Infrastructure.Repositories
             var query = DbContext.Set<Loan>().AsQueryable();
 
             var totalRecords = query.Count();
-            
-            query = query.Skip(skip).Take(limit);
 
             if (bookId is not null)
                 query = query.Where(loan => loan.LibraryBook.BookId == bookId);
@@ -35,9 +33,14 @@ namespace LibraryManager.Infrastructure.Repositories
                 query = query.Where(loan => loan.LibraryBook.Book.Title.Contains(search) || loan.Member.Name.Contains(search));
 
             if (status is not null)
-                query = query.Where(loan => loan.Status == status);            
+                query = query.Where(loan => loan.Status == status);
 
-            var loans = await query.ToListAsync(cancellationToken);
+            query = query.Skip(skip).Take(limit);
+
+            var loans = await query
+                .OrderByDescending(l => l.CreatedAt)
+                .Include(l => l.LibraryBook.Book)
+                .ToListAsync(cancellationToken);
 
             return (loans, totalRecords);
         }
