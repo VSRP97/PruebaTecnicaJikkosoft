@@ -18,11 +18,11 @@ namespace LibraryManager.Controllers.Loans
 
         [HttpGet]
         public async Task<IActionResult> GetAllPaginated(
-            [FromQuery] int skip,
-            [FromQuery] int limit,
             [FromQuery] string? search,
             [FromQuery] string? status,
-            [FromBody] GetLoansPaginatedRequest? request)
+            [FromBody] GetLoansPaginatedRequest? request,
+            [FromQuery] int skip = 0,
+            [FromQuery] int limit = 10)
         {
             GetAllLoansPaginatedQuery cmd = new(
                 skip,

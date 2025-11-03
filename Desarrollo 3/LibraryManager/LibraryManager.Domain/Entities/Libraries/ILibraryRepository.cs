@@ -9,6 +9,8 @@ namespace LibraryManager.Domain.Entities.Libraries
 {
     public interface ILibraryRepository : IRepository<Library>
     {
+        public Task<Library?> GetById(Guid id);
+
         public Task<(IReadOnlyList<Library>, int)> GetAllLibrariesPaginated(
             int skip,
             int limit,

@@ -18,9 +18,9 @@ namespace LibraryManager.Controllers.Members
 
         [HttpGet]
         public async Task<IActionResult> GetAllPaginated(
-            int skip,
-            int limit,
-            string? search)
+            [FromQuery] string? search,
+            [FromQuery] int skip = 0,
+            [FromQuery] int limit = 10)
         {
             GetAllMemberPaginatedQuery cmd = new(
                 skip,
