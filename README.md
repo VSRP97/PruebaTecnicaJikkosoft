@@ -163,8 +163,6 @@ static (int, int)? GetIndexes(IEnumerable<int> sourceNumbers, int destNumber)
 
 ## Desarrollo #3
 
-Para mantener la simplicidad de la solucón se optó por definir que cada edición de libro sólo pueda pertenecer a una biblioteca; igualmente para los miembros, estos solo pueden estar suscritos a una biblioteca.
-
 ### Diagrama de Entidad Relación
 
 ```mermaid
