@@ -36,9 +36,9 @@ namespace LibraryManager.Infrastructure.Repositories
             return (libraries, totalRecords);
         }
 
-        public async Task<Library?> GetById(Guid id)
+        public async Task<Library?> GetById(Guid id, CancellationToken cancellationToken)
         {
-            var library = await DbContext.Set<Library>().FirstOrDefaultAsync(b => b.Id == id);
+            var library = await DbContext.Set<Library>().FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
 
             return library;
         }

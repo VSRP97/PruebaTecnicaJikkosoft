@@ -63,6 +63,20 @@ namespace LibraryManager.Domain.Entities.LibraryBooks
             return libraryBook;
         }
 
+        public Result UpdateTotalCopies(int amountToUpdate)
+        {
+            var newTotalCopies = TotalCopies + amountToUpdate;
+            var newAvailableCopies = AvailableCopies + amountToUpdate;
+            if (newTotalCopies < 1)
+                return Result.Failure(LibraryBookErrors.TotalCopiesBelowOne);
+            if (newAvailableCopies < 0)
+                return Result.Failure(LibraryBookErrors.AvailableCopiesBelowZero);
+
+            TotalCopies = newTotalCopies;
+            AvailableCopies = newAvailableCopies;
+            return Result.Success();
+        }
+
         /// <summary>
         /// Reduces the number of available copies when lending books.
         /// </summary>
@@ -88,6 +102,9 @@ namespace LibraryManager.Domain.Entities.LibraryBooks
         /// <returns></returns>
         public Result ReturnCopies(int amountToReturn = 1)
         {
+            if (AvailableCopies + amountToReturn > TotalCopies)
+                return Result.Failure(LibraryBookErrors.ExceedingTotalCopies);
+
             AvailableCopies += amountToReturn;
             return Result.Success();
         }

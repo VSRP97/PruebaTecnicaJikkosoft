@@ -9,7 +9,12 @@ namespace LibraryManager.Domain.Entities.LibraryBooks
 {
     public interface ILibraryBookRepository : IRepository<LibraryBook>
     {
-        public Task<LibraryBook> GetById(Guid id, CancellationToken cancellationToken = default);
+        public Task<LibraryBook?> GetById(Guid id, CancellationToken cancellationToken = default);
+
+        public Task<LibraryBook?> GetByLibraryAndBookIds(
+            Guid libraryId, 
+            Guid bookId, 
+            CancellationToken cancellationToken = default);
 
         public Task<(IReadOnlyList<LibraryBook>, int)> GetAllLibraryBooksPaginated(
             int skip,

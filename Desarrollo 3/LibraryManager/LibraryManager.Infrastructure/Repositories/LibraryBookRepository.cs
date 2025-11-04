@@ -38,12 +38,20 @@ namespace LibraryManager.Infrastructure.Repositories
             return (libraryBooks, totalRecords);
         }
 
-        public Task<LibraryBook> GetById(Guid id, CancellationToken cancellationToken = default)
+        public Task<LibraryBook?> GetById(Guid id, CancellationToken cancellationToken = default)
         {
             return DbContext
                 .Set<LibraryBook>()
                 .Include(lb => lb.Book)
                 .FirstOrDefaultAsync(libraryBook => libraryBook.Id == id, cancellationToken)!;
+        }
+
+        public Task<LibraryBook?> GetByLibraryAndBookIds(Guid libraryId, Guid bookId, CancellationToken cancellationToken = default)
+        {
+            return DbContext
+                .Set<LibraryBook>()
+                .Include(lb => lb.Book)
+                .FirstOrDefaultAsync(libraryBook => libraryBook.LibraryId == libraryId && libraryBook.BookId == bookId, cancellationToken)!;
         }
     }
 }

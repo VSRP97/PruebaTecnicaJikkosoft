@@ -9,7 +9,7 @@ namespace LibraryManager.Domain.Entities.Libraries
 {
     public interface ILibraryRepository : IRepository<Library>
     {
-        public Task<Library?> GetById(Guid id);
+        public Task<Library?> GetById(Guid id, CancellationToken cancellationToken);
 
         public Task<(IReadOnlyList<Library>, int)> GetAllLibrariesPaginated(
             int skip,

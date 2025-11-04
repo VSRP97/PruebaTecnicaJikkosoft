@@ -34,6 +34,9 @@ namespace LibraryManager.Infrastructure.Configurations
                 .WithMany(b => b.LibraryBooks)
                 .HasForeignKey(lb => lb.BookId)
                 .IsRequired();
+
+            builder.HasIndex(lb => new { lb.LibraryId, lb.BookId })
+                .IsUnique();
         }
     }
 }

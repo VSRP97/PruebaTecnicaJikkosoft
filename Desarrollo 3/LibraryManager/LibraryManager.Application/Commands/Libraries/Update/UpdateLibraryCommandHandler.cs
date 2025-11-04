@@ -22,7 +22,7 @@ namespace LibraryManager.Application.Commands.Libraries.Update
 
         public async Task<Result> Handle(UpdateLibraryCommand request, CancellationToken cancellationToken)
         {
-            var library = await _libraryRepository.GetById(request.Id);
+            var library = await _libraryRepository.GetById(request.Id, cancellationToken);
 
             if (library is null)
                 return Result.Failure(LibraryErrors.NotFound);
