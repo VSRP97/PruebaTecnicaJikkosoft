@@ -207,11 +207,16 @@ erDiagram
         datetime expected_return_date
         enum status
         datetime created_at
+        int loaned_amount
     }
     l ||--}o lb : contains
     b ||--}o lb : identifies
     l ||--}o lm : subscribes
     m ||--}o lm : identifies    
-    m ||--}o ln : obtains    
     lb ||--}o ln : lent_in
+    m ||--}o ln : obtains    
 ```
+
+### Script de Generación de Base de Datos - SQL Server
+
+El archivo SQL se encuentra en ```.\Desarrollo 3\LibraryManagerDBScript.sql``` el cual fue generado mediante el ORM **Entity Framework Core**.
