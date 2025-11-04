@@ -8,6 +8,7 @@ namespace LibraryManager.Domain.Entities.Loans
 {
     public enum LoanStatus
     {
+        Unknown = -1,
         Created,
         Loaned,
         Returned

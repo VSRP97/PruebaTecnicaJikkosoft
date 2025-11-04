@@ -18,11 +18,4 @@
     <ProjectReference Include="..\LibraryManager.Domain\LibraryManager.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\Loans\Create\" />
-    <Folder Include="Commands\Loans\Delete\" />
-    <Folder Include="Commands\Loans\GetById\" />
-    <Folder Include="Commands\Loans\Return\" />
-  </ItemGroup>
-
 </Project>

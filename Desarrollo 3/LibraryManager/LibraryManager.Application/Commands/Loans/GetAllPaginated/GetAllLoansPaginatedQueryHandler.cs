@@ -38,6 +38,7 @@ namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
                 return new GetLoanResponse()
                 {
                     Id = l.Id,
+                    LibraryBookId = l.LibraryBookId,
                     BookId = l.LibraryBook.BookId,
                     BookTitle = l.LibraryBook.Book.Title,
                     LoanDate = l.LoanDate,
@@ -46,7 +47,8 @@ namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
                     MemberName = l.Member.Name,
                     ReturnDate = l.ReturnDate,
                     Status = l.Status.ToString(),
-                    CreatedAt = l.CreatedAt
+                    CreatedAt = l.CreatedAt,
+                    LoanedQuantity = l.LoanedAmount
                 };
             });
 

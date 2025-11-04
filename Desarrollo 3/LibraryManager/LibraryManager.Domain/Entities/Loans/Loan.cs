@@ -23,13 +23,15 @@ namespace LibraryManager.Domain.Entities.Loans
             LibraryBookId = libraryBookId;
             MemberId = memberId;
             Status = status;
+            LoanedAmount = 0;
+            CreatedAt = createdAt;
         }
         private Loan()
         {
         }
 
 
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
         public Guid LibraryBookId { get; private set; }
         public Guid MemberId { get; private set; }
         public DateTime? LoanDate { get; private set; }
@@ -37,6 +39,7 @@ namespace LibraryManager.Domain.Entities.Loans
         public DateTime? ReturnDate { get; private set; }
         public LoanStatus Status { get; private set; }
         public DateTime CreatedAt { get; private set; }
+        public int LoanedAmount { get; private set; }
 
         #region Navigation
         public LibraryBook LibraryBook { get; private set; }
@@ -63,10 +66,14 @@ namespace LibraryManager.Domain.Entities.Loans
             if (Status != LoanStatus.Created)
                 return Result.Failure(LoanErrors.NotCreatedStatus);
 
+            if (expectedReturnDate <= loanDate)
+                return Result.Failure(LoanErrors.ExpectedReturnDateLessOrEqualToLoanDate);
+
             var result = LibraryBook.LendCopies(quantity);
             if (result.IsFailure)
                 return result;
 
+            LoanedAmount = quantity;
             Status = LoanStatus.Loaned;            
             LoanDate = loanDate;
             ExpectedReturnDate = expectedReturnDate;
@@ -79,12 +86,18 @@ namespace LibraryManager.Domain.Entities.Loans
             if (Status != LoanStatus.Loaned)
                 return Result.Failure(LoanErrors.NotLoanedStatus);
 
+            if (LoanedAmount - quantity < 0)
+                return Result.Failure(LoanErrors.ReturnsGreaterThanLoaned);
+
             var result = LibraryBook.ReturnCopies(quantity);
             if (result.IsFailure)
-                return result;
+                return result;            
 
+            LoanedAmount -= quantity;
             ReturnDate = returnDate;
-            Status = LoanStatus.Returned;
+
+            if (LoanedAmount == 0)
+                Status = LoanStatus.Returned;
 
             return Result.Success();
         }

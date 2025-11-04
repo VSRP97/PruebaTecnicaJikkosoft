@@ -40,6 +40,7 @@ namespace LibraryManager.Infrastructure.Repositories
             var loans = await query
                 .OrderByDescending(l => l.CreatedAt)
                 .Include(l => l.LibraryBook.Book)
+                .Include(l => l.Member)
                 .ToListAsync(cancellationToken);
 
             return (loans, totalRecords);

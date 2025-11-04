@@ -38,6 +38,10 @@ namespace LibraryManager.Infrastructure.Configurations
                 .HasColumnName("created_at")
                 .IsRequired();
 
+            builder.Property(l => l.LoanedAmount)
+                .HasColumnName("loaned_amount")
+                .IsRequired();
+
             builder
                 .HasOne(l => l.LibraryBook)
                 .WithMany(lb => lb.Loans)

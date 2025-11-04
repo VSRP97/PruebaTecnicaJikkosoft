@@ -16,6 +16,7 @@ namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
     {
         public Guid Id { get; set; }
         public Guid BookId { get; set; }
+        public Guid LibraryBookId { get; set; }
         public string BookTitle { get; set; }
         public Guid MemberId { get; set; }
         public string MemberName { get; set; }
@@ -24,5 +25,6 @@ namespace LibraryManager.Application.Commands.Loans.GetAllPaginated
         public DateTime? ReturnDate { get; set; }
         public string Status { get; set; }
         public DateTime CreatedAt { get; set; }
+        public int LoanedQuantity { get; set; }
     }
 }

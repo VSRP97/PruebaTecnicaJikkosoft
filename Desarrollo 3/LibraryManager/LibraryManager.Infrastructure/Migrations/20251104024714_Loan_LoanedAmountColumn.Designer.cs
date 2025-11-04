@@ -4,6 +4,7 @@ using LibraryManager.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManager.Infrastructure.Migrations
 {
     [DbContext(typeof(LibraryManagerDbContext))]
-    partial class LibraryManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251104024714_Loan_LoanedAmountColumn")]
+    partial class Loan_LoanedAmountColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
