@@ -13,7 +13,6 @@ using LibraryManager.Domain.Entities.Libraries;
 using LibraryManager.Domain.Entities.LibraryBooks;
 using LibraryManager.Domain.Entities.Loans;
 using LibraryManager.Domain.Entities.Members;
-using LibraryManager.Domain.Entities.Users;
 using LibraryManager.Infrastructure.Caching;
 using LibraryManager.Infrastructure.Clock;
 using LibraryManager.Infrastructure.Data;
@@ -73,7 +72,6 @@ namespace LibraryManager.Infrastructure
 
         private static void AddCustomRepositories(IServiceCollection services)
         {
-            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ILoanRepository, LoanRepository>();
             services.AddScoped<ILibraryRepository, LibraryRepository>();
             services.AddScoped<ILibraryBookRepository, LibraryBookRepository>();

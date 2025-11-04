@@ -11,6 +11,8 @@ namespace LibraryManager.Domain.Entities.Members
     {
         public Task<Member> GetById(Guid id, CancellationToken cancellationToken = default);
 
+        public Task<Member> GetByEmail(string email, CancellationToken cancellationToken = default);
+
         public Task<(IReadOnlyList<Member>, int)> GetAllMembersPaginated(
             int skip,
             int limit,

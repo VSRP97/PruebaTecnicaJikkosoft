@@ -38,6 +38,13 @@ namespace LibraryManager.Infrastructure.Repositories
             return (members, totalRecords);
         }
 
+        public Task<Member> GetByEmail(string email, CancellationToken cancellationToken = default)
+        {
+            return DbContext
+                .Set<Member>()
+                .FirstOrDefaultAsync(member => member.Email == email, cancellationToken)!;
+        }
+
         public Task<Member> GetById(Guid id, CancellationToken cancellationToken = default)
         {
             return DbContext

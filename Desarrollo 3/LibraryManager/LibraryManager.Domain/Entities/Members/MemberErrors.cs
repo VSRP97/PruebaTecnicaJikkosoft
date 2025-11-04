@@ -12,5 +12,9 @@ namespace LibraryManager.Domain.Entities.Members
         public static readonly Error NotFound = new(
             "Member.NotFound",
             "The member with the specified identifier was not found.");
+
+        public static readonly Error EmailAlreadyExists = new(
+            "Member.EmailAlreadyExists",
+            "A member with the specified email already exists.");
     }
 }

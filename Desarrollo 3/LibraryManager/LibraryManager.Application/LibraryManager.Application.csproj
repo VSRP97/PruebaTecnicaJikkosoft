@@ -23,10 +23,6 @@
     <Folder Include="Commands\Loans\Delete\" />
     <Folder Include="Commands\Loans\GetById\" />
     <Folder Include="Commands\Loans\Return\" />
-    <Folder Include="Commands\Members\GetById\" />
-    <Folder Include="Commands\Members\Create\" />
-    <Folder Include="Commands\Members\Delete\" />
-    <Folder Include="Commands\Members\Update\" />
   </ItemGroup>
 
 </Project>

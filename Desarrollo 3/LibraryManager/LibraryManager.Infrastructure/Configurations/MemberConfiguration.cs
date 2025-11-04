@@ -31,6 +31,10 @@ namespace LibraryManager.Infrastructure.Configurations
                 .HasMany(m => m.Libraries)
                 .WithMany(l => l.Members)
                 .UsingEntity("library_member");
+
+            builder
+                .HasIndex(m => m.Email)
+                .IsUnique();
         }
     }
 }
