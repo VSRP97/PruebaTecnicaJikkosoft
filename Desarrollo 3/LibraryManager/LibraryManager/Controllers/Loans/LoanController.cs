@@ -12,11 +12,11 @@ namespace LibraryManager.Controllers.Loans
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class LoanControllers : ControllerBase
+    public class LoanController : ControllerBase
     {
         private readonly ISender _sender;
 
-        public LoanControllers(ISender sender)
+        public LoanController(ISender sender)
         {
             _sender = sender;
         }
