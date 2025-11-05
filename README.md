@@ -215,6 +215,89 @@ erDiagram
     m ||--}o ln : obtains    
 ```
 
-### Script de Generación de Base de Datos - SQL Server
 
-El archivo SQL se encuentra en ```.\Desarrollo 3\LibraryManagerDBScript.sql``` el cual fue generado mediante el ORM **Entity Framework Core**.
+
+### Características Principales
+
+- **API RESTful** completa con documentación Swagger
+- **Clean Architecture** con separación clara de responsabilidades
+- **CQRS Pattern** con MediatR para comandos y consultas
+- **Entity Framework Core** con SQL Server
+- **Health Checks** integrados
+- **Containerización** completa con Docker
+- **Manejo de excepciones** centralizado
+- **Validación** de datos con FluentValidation
+- **Caching** en memoria para optimización
+
+### Arquitectura del Sistema
+
+```
+LibraryManager/
+├── LibraryManager/                 # Presentation Layer (Web API)
+│   ├── Controllers/                   # API Controllers
+│   ├── Middleware/                    # Custom Middleware
+│   └── Extensions/                    # Application Extensions
+├── LibraryManager.Application/     # Application Layer
+│   ├── Commands/                      # CQRS Commands
+│   ├── Abstractions/                  # Application Interfaces
+│   └── Exceptions/                    # Application Exceptions
+├── LibraryManager.Domain/          # Domain Layer
+│   ├── Entities/                      # Domain Entities
+│   ├── Abstractions/                  # Domain Interfaces
+│   └── Responses/                     # Response Models
+├── LibraryManager.Infrastructure/  # Infrastructure Layer
+│   ├── Repositories/                  # Data Access
+│   ├── Configurations/               # EF Configurations
+│   ├── Migrations/                   # Database Migrations
+│   └── Caching/                      # Cache Implementation
+└── docker/                        # Docker Configuration
+    ├── docker-compose.yml            # Container Orchestration
+    └── init/                         # Database Init Scripts
+```
+
+### Endpoints API Disponibles
+
+#### Libros (`/api/Book`)
+```http
+GET    /api/Book              # Obtener libros paginados
+GET    /api/Book/{id}         # Obtener libro por ID
+POST   /api/Book              # Crear nuevo libro
+PATCH  /api/Book/{id}         # Actualizar libro
+DELETE /api/Book/{id}         # Eliminar libro
+```
+
+#### Bibliotecas (`/api/Library`)
+```http
+GET    /api/Library           # Obtener bibliotecas paginadas
+GET    /api/Library/{id}      # Obtener biblioteca por ID
+POST   /api/Library           # Crear nueva biblioteca
+PATCH  /api/Library/{id}      # Actualizar biblioteca
+DELETE /api/Library/{id}      # Eliminar biblioteca
+```
+
+#### Miembros (`/api/Member`)
+```http
+GET    /api/Member            # Obtener miembros paginados
+GET    /api/Member/{id}       # Obtener miembro por ID
+POST   /api/Member            # Crear nuevo miembro
+PATCH  /api/Member/{id}       # Actualizar miembro
+DELETE /api/Member/{id}       # Eliminar miembro
+```
+
+#### Préstamos (`/api/Loan`)
+```http
+GET    /api/Loan              # Obtener préstamos paginados
+GET    /api/Loan/{id}         # Obtener préstamo por ID
+POST   /api/Loan              # Crear nuevo préstamo
+PATCH  /api/Loan/return/{id}  # Devolver libro
+DELETE /api/Loan/{id}         # Cancelar préstamo
+```
+
+#### Biblioteca-Libros (`/api/LibraryBook`)
+```http
+GET    /api/LibraryBook       # Obtener inventario paginado
+GET    /api/LibraryBook/{id}  # Obtener registro por ID
+POST   /api/LibraryBook       # Agregar libro a biblioteca
+PATCH  /api/LibraryBook/{id}  # Actualizar inventario
+DELETE /api/LibraryBook/{id}  # Remover libro de biblioteca
+```
