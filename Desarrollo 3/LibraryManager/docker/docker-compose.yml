@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    container_name: library_manager_sqlserver
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=LibraryManager123!
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+      - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - library_network
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 1 bash -c '</dev/tcp/localhost/1433' && echo 'SQL Server is ready' || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 45s
+    restart: unless-stopped
+
+  db-init:
+    container_name: library_manager_init
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    volumes:
+      - ./init:/scripts
+    environment:
+      - SA_PASSWORD=LibraryManager123!
+    networks:
+      - library_network
+    command: >
+      bash -c "
+        echo 'Esperando a que SQL Server esté completamente listo...'
+        sleep 20
+        
+        echo 'Ejecutando scripts de inicialización...'
+        for script in /scripts/*.sql; do
+          if [ -f \"\$$script\" ]; then
+            echo \"Ejecutando \$$script...\"
+            /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P 'LibraryManager123!' -i \"\$$script\"
+            if [ \$$? -eq 0 ]; then
+              echo \"✓ Script \$$script ejecutado correctamente\"
+            else
+              echo \"✗ Error ejecutando \$$script\"
+              exit 1
+            fi
+          fi
+        done
+        echo '✓ Inicialización completa - Base de datos lista'
+      "
+
+  library-api:
+    container_name: library_manager_api
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      db-init:
+        condition: service_completed_successfully
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__Database=Data Source=sqlserver;Initial Catalog=master;User ID=sa;Password=LibraryManager123!;TrustServerCertificate=true;
+    networks:
+      - library_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+volumes:
+  sqlserver_data:
+
+networks:
+  library_network:
+    driver: bridge
